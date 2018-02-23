@@ -1,0 +1,11 @@
+*.dll
+*.meta
+*g.*
+
+bin/
+obj/
+packages/
+.vs/
+lib/
+*.Build.CppClean.log
+Debug/
