@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vms="using:drawboard.ViewModels"
+    xmlns:misc="using:drawboard.Misc"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -29,11 +30,12 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Foreground" Value="#FF0078D7" />
             <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0,0,0,50" />
+            <Setter Property="Margin" Value="0,0,0,20" />
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="0,2" />
             <Setter Property="MinWidth" Value="180" />
+            <Setter Property="PlaceholderForeground" Value="LightGray" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="0,2" />
@@ -43,13 +45,28 @@
             <Setter Property="Margin" Value="0,2" />
             <Setter Property="MinWidth" Value="80" />
         </Style>
+        <Style TargetType="Border" x:Key="ErrorMessageBorder">
+            <Setter Property="Background" Value="#33FF0000" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#7FFF0000" />
+            <Setter Property="Padding" Value="30,5" />
+            <Setter Property="Margin" Value="0,2" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ErrorMessageTextBlock">
+            <Setter Property="Foreground" Value="#FFC80000" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <misc:BoolToVisibilityConverter x:Key="boolToHiddenConverter"/>
     </Page.Resources>
 
     <Grid Style="{StaticResource BackgroundGrid}">
         <Border Style="{StaticResource ContentGridBorder}">
-            <Grid Style="{StaticResource ContentGrid}">
+            <Grid Style="{StaticResource ContentGrid}"
+                  Width="300">
             
                 <Grid.RowDefinitions>
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
@@ -61,22 +78,32 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.ColumnSpan="2"
-                        Text="Login"
-                        Style="{StaticResource Header}"/>
+                           Text="Login"
+                           Style="{StaticResource Header}"/>
 
-                <TextBlock Grid.Row="1"
-                        Text="Username" />
-                <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Border Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource ErrorMessageBorder}"
+                        Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource boolToHiddenConverter}}">
+                    <TextBlock Style="{StaticResource ErrorMessageTextBlock}"
+                               Text="Invalid username/password combination. Please try again!"/>
+                </Border>
 
                 <TextBlock Grid.Row="2"
-                        Text="Password" />
+                           Text="Username" />
                 <TextBox Grid.Row="2"
                          Grid.Column="1"
-                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="Username"/>
 
-                <Button Grid.Row="3"
+                <TextBlock Grid.Row="3"
+                           Text="Password" />
+                <TextBox Grid.Row="3"
+                         Grid.Column="1"
+                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="Password"/>
+
+                <Button Grid.Row="4"
                         Grid.ColumnSpan="2"
                         Content="Authenticate"
                         HorizontalAlignment="Right"

@@ -1,4 +1,6 @@
 ﻿using drawboard.Misc;
+using System.Net.Http;
+using System.Text;
 using System.Windows.Input;
 
 namespace drawboard.ViewModels
@@ -10,6 +12,7 @@ namespace drawboard.ViewModels
     {
         private string username;
         private string password;
+        private bool isErrorMessageVisible;
 
         /// <summary>
         /// Ctor
@@ -45,6 +48,16 @@ namespace drawboard.ViewModels
             }
         }
 
+        public bool IsErrorMessageVisible
+        {
+            get => isErrorMessageVisible;
+            set
+            {
+                isErrorMessageVisible = value;
+                RaisePropertyChanged(nameof(IsErrorMessageVisible));
+            }
+        }
+
         #endregion View-Bound Commands&Props
 
         /// <summary>
@@ -66,9 +79,26 @@ namespace drawboard.ViewModels
         /// <summary>
         /// Attempts to log into the drawboard API using <see cref="Username"/> and <see cref="Password"/>
         /// </summary>
-        private void Login(object value)
+        private async void Login(object value)
         {
-            
+            using (var httpClient = new HttpClient())
+            {
+                const string loginFormat = "{{\"username\": \"{0}\", \"password\": \"{1}\"}}";
+                var loginString = string.Format(loginFormat, Username, Password);
+
+                var loginResult = await httpClient.PostAsync(
+                    "https://preprod-api.bullclip.com/api/v1/auth/login",
+                    new StringContent(loginString, Encoding.UTF8, "application/json"));
+
+                if (loginResult.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    IsErrorMessageVisible = true;
+                }
+                else
+                {
+                    IsErrorMessageVisible = false;
+                }
+            }
         }
     }
 }
