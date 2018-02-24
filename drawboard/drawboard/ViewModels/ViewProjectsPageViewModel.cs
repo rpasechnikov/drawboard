@@ -48,7 +48,7 @@ namespace drawboard.ViewModels
 
                     foreach (var project in projects)
                     {
-                        Projects.Add(project);
+                        Projects.Add(new ProjectViewModel(project));
                     }
                 }
             }
@@ -68,6 +68,7 @@ namespace drawboard.ViewModels
         /// Currently using projects directly - may either need to wrap into a VM or extend with INPC
         /// if we decide to add edit capabilities
         /// </summary>
-        public ObservableCollection<Project> Projects { get; } = new ObservableCollection<Project>();
+        public ObservableCollection<ProjectViewModel> Projects { get; } 
+                                    = new ObservableCollection<ProjectViewModel>();
     }
 }

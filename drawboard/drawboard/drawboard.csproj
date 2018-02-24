@@ -106,6 +106,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\PageViewModelBase.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewProjectsPageViewModel.cs" />
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\ViewProjectsPage.xaml.cs">
