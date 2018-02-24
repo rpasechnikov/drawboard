@@ -1,20 +1,19 @@
-﻿<v:PageBase
-    x:Class="drawboard.MainPage"
+﻿<local:PageBase
+    x:Class="drawboard.Views.ViewProjectsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:drawboard"
+    xmlns:local="using:drawboard.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:v="using:drawboard.Views"
     xmlns:vms="using:drawboard.ViewModels"
     xmlns:misc="using:drawboard.Misc"
     mc:Ignorable="d">
 
-    <v:PageBase.DataContext>
-        <vms:MainPageViewModel />
-    </v:PageBase.DataContext>
+    <local:PageBase.DataContext>
+        <vms:ViewProjectsPageViewModel />
+    </local:PageBase.DataContext>
 
-    <v:PageBase.Resources>
+    <local:PageBase.Resources>
         <Style TargetType="Grid" x:Key="BackgroundGrid">
             <Setter Property="Background" Value="#FF0078D7" />
         </Style>
@@ -59,57 +58,14 @@
             <Setter Property="TextAlignment" Value="Center" />
         </Style>
         <misc:BoolToVisibilityConverter x:Key="boolToHiddenConverter"/>
-    </v:PageBase.Resources>
+    </local:PageBase.Resources>
 
     <Grid Style="{StaticResource BackgroundGrid}">
         <Border Style="{StaticResource ContentGridBorder}">
             <Grid Style="{StaticResource ContentGrid}"
                   Width="300">
-            
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.ColumnSpan="2"
-                           Text="Login"
-                           Style="{StaticResource Header}"/>
-
-                <Border Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Style="{StaticResource ErrorMessageBorder}"
-                        Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource boolToHiddenConverter}}">
-                    <TextBlock Style="{StaticResource ErrorMessageTextBlock}"
-                               Text="Invalid username/password combination. Please try again!"/>
-                </Border>
-
-                <TextBlock Grid.Row="2"
-                           Text="Username" />
-                <TextBox Grid.Row="2"
-                         Grid.Column="1"
-                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PlaceholderText="Username"/>
-
-                <TextBlock Grid.Row="3"
-                           Text="Password" />
-                <TextBox Grid.Row="3"
-                         Grid.Column="1"
-                         Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PlaceholderText="Password"/>
-
-                <Button Grid.Row="4"
-                        Grid.ColumnSpan="2"
-                        Content="Authenticate"
-                        HorizontalAlignment="Right"
-                        Command="{Binding LoginCommand}"/>
+                
             </Grid>
         </Border>
     </Grid>
-</v:PageBase>
+</local:PageBase>

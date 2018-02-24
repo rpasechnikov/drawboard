@@ -1,4 +1,7 @@
-﻿using drawboard.Misc;
+﻿using drawboard.ApiModels;
+using drawboard.Misc;
+using drawboard.Views;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Windows.Input;
@@ -8,7 +11,7 @@ namespace drawboard.ViewModels
     /// <summary>
     /// VM for <see cref="MainPage"/>
     /// </summary>
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : PageViewModelBase
     {
         private string username;
         private string password;
@@ -87,8 +90,8 @@ namespace drawboard.ViewModels
                 var loginString = string.Format(loginFormat, Username, Password);
 
                 var loginResult = await httpClient.PostAsync(
-                    "https://preprod-api.bullclip.com/api/v1/auth/login",
-                    new StringContent(loginString, Encoding.UTF8, "application/json"));
+                    $"{App.API_PREFIX}auth/login",
+                    new StringContent(loginString, App.API_ENCODING, App.API_MEDIA_TYPE));
 
                 if (loginResult.StatusCode != System.Net.HttpStatusCode.OK)
                 {
@@ -97,6 +100,13 @@ namespace drawboard.ViewModels
                 else
                 {
                     IsErrorMessageVisible = false;
+
+                    var authLoginResponseContent = 
+                        JsonConvert.DeserializeObject<AuthLoginResponse>(
+                            await loginResult.Content.ReadAsStringAsync());
+
+                    App.AccessToken = authLoginResponseContent.AccessToken;
+                    RaiseReadyToNaviageToNextPageChanged(typeof(ViewProjectsPage));
                 }
             }
         }

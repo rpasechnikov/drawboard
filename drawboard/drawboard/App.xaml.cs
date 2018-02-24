@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -22,6 +23,10 @@ namespace drawboard
     /// </summary>
     sealed partial class App : Application
     {
+        public const string API_PREFIX = "https://preprod-api.bullclip.com/api/v1/";
+        public static readonly Encoding API_ENCODING = Encoding.UTF8;
+        public const string API_MEDIA_TYPE = "application/json";
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -31,6 +36,11 @@ namespace drawboard
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
+
+        /// <summary>
+        /// Access token for API requests
+        /// </summary>
+        public static string AccessToken { get; set; }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
