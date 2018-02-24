@@ -13,58 +13,49 @@
         <vms:ViewProjectsPageViewModel />
     </local:PageBase.DataContext>
 
-    <local:PageBase.Resources>
-        <Style TargetType="Grid" x:Key="BackgroundGrid">
-            <Setter Property="Background" Value="#FF0078D7" />
-        </Style>
-        <Style TargetType="Border" x:Key="ContentGridBorder">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <Style TargetType="Grid" x:Key="ContentGrid">
-            <Setter Property="Margin" Value="50, 20" />
-        </Style>
-        <Style TargetType="TextBlock" x:Key="Header">
-            <Setter Property="FontSize" Value="32" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="#FF0078D7" />
-            <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0,0,0,20" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="180" />
-            <Setter Property="PlaceholderForeground" Value="LightGray" />
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="120" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="80" />
-        </Style>
-        <Style TargetType="Border" x:Key="ErrorMessageBorder">
-            <Setter Property="Background" Value="#33FF0000" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="#7FFF0000" />
-            <Setter Property="Padding" Value="30,5" />
-            <Setter Property="Margin" Value="0,2" />
-        </Style>
-        <Style TargetType="TextBlock" x:Key="ErrorMessageTextBlock">
-            <Setter Property="Foreground" Value="#FFC80000" />
-            <Setter Property="TextWrapping" Value="WrapWholeWords" />
-            <Setter Property="TextAlignment" Value="Center" />
-        </Style>
-        <misc:BoolToVisibilityConverter x:Key="boolToHiddenConverter"/>
-    </local:PageBase.Resources>
-
     <Grid Style="{StaticResource BackgroundGrid}">
         <Border Style="{StaticResource ContentGridBorder}">
             <Grid Style="{StaticResource ContentGrid}"
-                  Width="300">
-                
+                  Width="800">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" />
+
+                <ListView ItemsSource="{Binding Projects}"
+                          Grid.Row="2">
+                    <ListView.ItemTemplate>
+                        
+                        <!-- Might be a good idea to extract as UserControl or CustomControl if we want theming
+                        in case this becomes larger/etc - will get difficult to maintain inline -->
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Description}"
+                                           Grid.Row="1"
+                                           FontSize="8"
+                                           Foreground="Gray"/>
+                                <TextBlock Text="{Binding Status}"
+                                           Grid.Column="1" />
+                                <ToggleButton Grid.Row="1"
+                                              Grid.Column="1"
+                                              Content="Show User Info" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </Border>
     </Grid>

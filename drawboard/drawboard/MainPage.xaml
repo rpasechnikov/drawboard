@@ -14,53 +14,6 @@
         <vms:MainPageViewModel />
     </v:PageBase.DataContext>
 
-    <v:PageBase.Resources>
-        <Style TargetType="Grid" x:Key="BackgroundGrid">
-            <Setter Property="Background" Value="#FF0078D7" />
-        </Style>
-        <Style TargetType="Border" x:Key="ContentGridBorder">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-        <Style TargetType="Grid" x:Key="ContentGrid">
-            <Setter Property="Margin" Value="50, 20" />
-        </Style>
-        <Style TargetType="TextBlock" x:Key="Header">
-            <Setter Property="FontSize" Value="32" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="#FF0078D7" />
-            <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="Margin" Value="0,0,0,20" />
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="180" />
-            <Setter Property="PlaceholderForeground" Value="LightGray" />
-        </Style>
-        <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="120" />
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="0,2" />
-            <Setter Property="MinWidth" Value="80" />
-        </Style>
-        <Style TargetType="Border" x:Key="ErrorMessageBorder">
-            <Setter Property="Background" Value="#33FF0000" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="#7FFF0000" />
-            <Setter Property="Padding" Value="30,5" />
-            <Setter Property="Margin" Value="0,2" />
-        </Style>
-        <Style TargetType="TextBlock" x:Key="ErrorMessageTextBlock">
-            <Setter Property="Foreground" Value="#FFC80000" />
-            <Setter Property="TextWrapping" Value="WrapWholeWords" />
-            <Setter Property="TextAlignment" Value="Center" />
-        </Style>
-        <misc:BoolToVisibilityConverter x:Key="boolToHiddenConverter"/>
-    </v:PageBase.Resources>
-
     <Grid Style="{StaticResource BackgroundGrid}">
         <Border Style="{StaticResource ContentGridBorder}">
             <Grid Style="{StaticResource ContentGrid}"
@@ -80,7 +33,7 @@
 
                 <TextBlock Grid.ColumnSpan="2"
                            Text="Login"
-                           Style="{StaticResource Header}"/>
+                           Style="{StaticResource CustomHeaderTextBlockStyle}"/>
 
                 <Border Grid.Row="1"
                         Grid.ColumnSpan="2"

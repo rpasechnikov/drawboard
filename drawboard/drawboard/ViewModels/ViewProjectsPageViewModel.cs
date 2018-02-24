@@ -1,7 +1,5 @@
 ﻿using drawboard.ApiModels;
-using drawboard.Views;
 using Newtonsoft.Json;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
@@ -13,6 +11,8 @@ namespace drawboard.ViewModels
     /// </summary>
     public class ViewProjectsPageViewModel : PageViewModelBase
     {
+        private bool isErrorMessageVisible;
+
         /// <summary>
         /// Ctor
         /// </summary>
@@ -38,15 +38,36 @@ namespace drawboard.ViewModels
 
                 if (loginResult.StatusCode != System.Net.HttpStatusCode.OK)
                 {
-                    // Error
+                    IsErrorMessageVisible = true;
                 }
                 else
                 {
-                    var authLoginResponseContent = 
-                        JsonConvert.DeserializeObject<IEnumerable<Project>>(
-                            await loginResult.Content.ReadAsStringAsync());
+                    IsErrorMessageVisible = false;
+                    var projects = JsonConvert.DeserializeObject<IEnumerable<Project>>(
+                                    await loginResult.Content.ReadAsStringAsync());
+
+                    foreach (var project in projects)
+                    {
+                        Projects.Add(project);
+                    }
                 }
             }
         }
+
+        public bool IsErrorMessageVisible
+        {
+            get => isErrorMessageVisible;
+            set
+            {
+                isErrorMessageVisible = value;
+                RaisePropertyChanged(nameof(IsErrorMessageVisible));
+            }
+        }
+
+        /// <summary>
+        /// Currently using projects directly - may either need to wrap into a VM or extend with INPC
+        /// if we decide to add edit capabilities
+        /// </summary>
+        public ObservableCollection<Project> Projects { get; } = new ObservableCollection<Project>();
     }
 }
